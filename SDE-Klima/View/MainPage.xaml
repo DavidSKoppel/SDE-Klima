@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SDE_Klima.MainPage"
+             xmlns:model="clr-namespace:SDE_Klima.Model"
+             xmlns:viewmodel="clr-namespace:SDE_Klima.ViewModel"
+             x:DataType="viewmodel:MainPageViewModel"
+             BackgroundColor="#2244CC">
+    <NavigationPage.TitleView>
+        <Grid RowDefinitions="*" ColumnDefinitions="*">
+            <Button
+                Text="Flere Steder" 
+                Clicked="OnCounterClicked" 
+                HeightRequest="50" 
+                WidthRequest="150" 
+                HorizontalOptions="End" 
+                FontAttributes="Bold" 
+                FontSize="20"/>
+        </Grid>
+    </NavigationPage.TitleView>
+    <RefreshView>
+        <!--IsRefreshing="{Binding IsRefreshing}"
+             Command="{Binding RefreshCommand}"-->
+        <ScrollView HeightRequest="1000">
+            <ScrollView.Background>
+                <LinearGradientBrush EndPoint="0,1">
+                    <GradientStop Color="#2244CC"
+                                      Offset="0.1"/>
+                    <GradientStop Color="{Binding Colour}"
+                                      Offset="1.0"/>
+                </LinearGradientBrush>
+            </ScrollView.Background>
+            <VerticalStackLayout
+                Padding="30,0">
+                <StackLayout
+                    Padding="-50,0">
+                    <Line
+                    X1="10000"
+                    Y1="0"
+                    X2="0"
+                    Y2="0"
+                    Stroke="White" 
+                    StrokeThickness="5"/>
+                </StackLayout>
+                <Label
+                    Text="{Binding Place}"
+                    Padding="30,30,30,0"
+                    FontSize="30"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center" />
+                <Label
+                    Text="Sidst Opdateret"
+                    TextColor="LightGrey"
+                    FontSize="16"
+                    HorizontalOptions="Center" />
+                <Label
+                    Text="8:00"
+                    TextColor="LightGrey"
+                    FontSize="16"
+                    Padding="30,0,30,120"
+                    HorizontalOptions="Center" />
+                <HorizontalStackLayout Spacing="25" HorizontalOptions="Center">
+                    <Image
+                        Source="piskel.png"
+                        HeightRequest="100"
+                        HorizontalOptions="Center" 
+                    />
+
+                    <Label
+                        Text="{Binding Temperature}"
+                        FontSize="70"
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center"
+                    />
+                </HorizontalStackLayout>
+
+                <Label
+                    Text="{Binding Humidity}"
+                    TextColor="LightGrey"
+                    FontSize="18"
+                    HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
+</ContentPage>
