@@ -25,10 +25,10 @@ namespace SDE_Klima.ViewModel
             RefreshCommand = new Command(GetTemperatureAsync);
             TemperatureSensorData sensorData = new TemperatureSensorData
             {
-                temperature = Preferences.Default.Get("temperature", "?°C"), 
-                humidity = Preferences.Default.Get("humidity", "?%"),
+                temperature = Preferences.Default.Get("temperature", "?"), 
+                humidity = Preferences.Default.Get("humidity", "?"),
                 name = Preferences.Default.Get("name", "mu?"),
-                zone = Preferences.Default.Get("zone", "zone-?"),
+                zone = Preferences.Default.Get("zone", "?"),
                 updated_time = Preferences.Default.Get("time", "??:??:??"),
                 updated_date = Preferences.Default.Get("date", "??:??:????")
 
@@ -92,20 +92,20 @@ namespace SDE_Klima.ViewModel
             Date = sensorData.updated_date;
             try
             {
-                float temp = float.Parse(Temperature.Replace("°C", ""));
-                if (temp < 20)
+                double temp = Convert.ToDouble(Temperature.Replace("°C", ""));
+                if (temp < 20.0)
                 {
     #pragma warning disable CS0618 // Type or member is obsolete
                     Colour = Color.FromHex("#FFFFFF");//Cold
     #pragma warning restore CS0618 // Type or member is obsolete
                 }
-                else if (temp >= 20 && temp <= 25)
+                else if (temp >= 20.0 && temp <= 25.0)
                 {
     #pragma warning disable CS0618 // Type or member is obsolete
                     Colour = Color.FromHex("#6ea5ff");//Mild
     #pragma warning restore CS0618 // Type or member is obsolete
                 }
-                else if (temp > 25)
+                else if (temp > 25.0)
                 {
     #pragma warning disable CS0618 // Type or member is obsolete
                     Colour = Color.FromHex("#ff0019");//Hot
