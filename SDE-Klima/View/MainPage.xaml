@@ -18,10 +18,8 @@
                 FontSize="20"/>
         </Grid>
     </NavigationPage.TitleView>
-    <RefreshView>
-        <!--IsRefreshing="{Binding IsRefreshing}"
-             Command="{Binding RefreshCommand}"-->
-        <ScrollView HeightRequest="1000">
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+        <ScrollView HeightRequest="800">
             <ScrollView.Background>
                 <LinearGradientBrush EndPoint="0,1">
                     <GradientStop Color="#2244CC"
@@ -42,12 +40,17 @@
                     Stroke="White" 
                     StrokeThickness="5"/>
                 </StackLayout>
-                <Label
-                    Text="{Binding Place}"
-                    Padding="30,30,30,0"
+                <HorizontalStackLayout Padding="0,30,0,0" HorizontalOptions="Center">
+                    <Label
+                    Text="{Binding Name, StringFormat='{0}:'}"
+                    Padding="0,0,7,0"
                     FontSize="30"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Center" />
+                    FontAttributes="Bold"/>
+                    <Label
+                    Text="{Binding Zone, StringFormat='Zone-{0}'}"
+                    FontSize="30"
+                    FontAttributes="Bold"/>
+                </HorizontalStackLayout>
                 <Label
                     Text="Sidst Opdateret"
                     TextColor="LightGrey"
@@ -63,21 +66,20 @@
                     <Image
                         Source="piskel.png"
                         HeightRequest="100"
-                        HorizontalOptions="Center" 
-                    />
+                        HorizontalOptions="Center" />
 
                     <Label
-                        Text="{Binding Temperature}"
+                        Text="{Binding Temperature, StringFormat='{0}°C'}"
                         FontSize="70"
                         HorizontalOptions="Center" 
-                        VerticalOptions="Center"
-                    />
+                        VerticalOptions="Center" />
                 </HorizontalStackLayout>
 
                 <Label
-                    Text="{Binding Humidity}"
+                    Text="{Binding Humidity, StringFormat='{0}% Luftfugtighed'}"
                     TextColor="LightGrey"
                     FontSize="18"
+                    Padding="10"
                     HorizontalOptions="Center" />
             </VerticalStackLayout>
         </ScrollView>

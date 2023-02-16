@@ -9,12 +9,9 @@ namespace SDE_Klima.Model
 {
     public class TemperatureSensorData
     {
-    public string zone { get; set; }
-
-    public string humidity { get; set; }
-
-    public string temperature { get; set; }
-
-    public string name { get; set; }
+        public string temperature { get; set; }
+        public string humidity { get; set; }
+        public string name { get; set; }
+        public string zone { get; set; }
     }
 }

@@ -1,11 +1,6 @@
 ﻿using SDE_Klima.Model;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace SDE_Klima.ViewModel
 {
@@ -13,27 +8,36 @@ namespace SDE_Klima.ViewModel
     {
         public INavigation Navigation;
         MainPageViewModel mainPageViewModel;
-        private ObservableCollection<TemperatureSensorData> _temperatures;
-        public ObservableCollection<TemperatureSensorData> temperatures 
+        public Command RefreshCommand { get; }
+
+        bool isRefreshing = false;
+        public bool IsRefreshing { get => isRefreshing; set { if (isRefreshing == value) return; isRefreshing = value; OnPropertyChanged(); } }
+
+        private ObservableCollection<TemperatureSensorData> temperatures;
+        public ObservableCollection<TemperatureSensorData> Temperatures 
         { 
             get 
             { 
-                return _temperatures; 
+                return temperatures; 
             } 
             set 
             { 
-                _temperatures = value; 
+                temperatures = value; 
                 OnPropertyChanged(); 
             } 
         }
-        public Command GetTemperaturesCommand { get; }
-        public SensorsViewModel(MainPageViewModel main)
+        public SensorsViewModel(MainPageViewModel main, bool refresh)
         {
-            mainPageViewModel = main;
-            GetTemperaturesCommand = new Command(GetTemperaturesAsync);
+            IsRefreshing = refresh;
             temperatures = new ObservableCollection<TemperatureSensorData>();
-            GetTemperaturesAsync();
+            RefreshCommand = new Command(GetTemperaturesAsync);
+            mainPageViewModel = main;
         }
+
+        ~SensorsViewModel()
+        {
+        }
+
         public async void ShowTemperatureAsync(TemperatureSensorData sensorData)
         {
             mainPageViewModel.ChangeData(sensorData);
@@ -46,26 +50,28 @@ namespace SDE_Klima.ViewModel
                 var formContent = new FormUrlEncodedContent(new[]
                 {
                 new KeyValuePair<string, string>("what", "temperatures-json")
-            });
-
+                });
+                
                 HttpResponseMessage response = await _client.PostAsync("https://itd-skp.sde.dk/api/find.php", formContent);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync();
 
                     var jsonList = JsonSerializer.Deserialize<List<TemperatureSensorData>>(content);
+                    temperatures.Clear();
                     foreach (var record in jsonList)
                     {
                         temperatures.Add(new TemperatureSensorData
                         {
-                            temperature = record.temperature + "°C",
-                            humidity = record.humidity + "%",
-                            zone = "Zone-" + record.zone,
+                            temperature = record.temperature,
+                            humidity = record.humidity,
+                            zone = record.zone,
                             name = record.name
                         });
                     }
                 }
             }
+            IsRefreshing = false;
         }
     }
 }

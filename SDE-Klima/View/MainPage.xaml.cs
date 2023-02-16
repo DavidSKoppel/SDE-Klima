@@ -6,11 +6,12 @@ namespace SDE_Klima;
 
 public partial class MainPage : ContentPage
 {
+    MainPageViewModel mainPage = new MainPageViewModel();
     SensorsViewModel sensorsViewModel;
-	public MainPage(MainPageViewModel viewModel)
+	public MainPage()
     {
-        sensorsViewModel = new SensorsViewModel(viewModel);
-        BindingContext = viewModel;
+        BindingContext = mainPage;
+        sensorsViewModel = new SensorsViewModel(mainPage, true);
         InitializeComponent();
     }
 

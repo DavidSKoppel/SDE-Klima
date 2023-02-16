@@ -16,9 +16,19 @@ public partial class SensorsView : ContentPage
         InitializeComponent();
     }
 
+    ~SensorsView() 
+    {
+    }
+
     private void listView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
     {
         TemperatureSensorData data = (TemperatureSensorData)e.SelectedItem;
         viewModel.ShowTemperatureAsync(data);
+    }
+
+    protected override void OnDisappearing()
+    {
+        this.BindingContext = null;
+        base.OnDisappearing();
     }
 }

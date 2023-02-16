@@ -7,31 +7,33 @@
              x:DataType="viewmodel:SensorsViewModel"
              BackgroundColor="#2244CC"
              Title="SensorsView">
-    <ScrollView>
-        <VerticalStackLayout VerticalOptions="Center" Spacing="20">
-            <ListView RowHeight="80" x:Name="listView" SelectionMode="Single" ItemSelected="listView_ItemSelected" ItemsSource="{Binding temperatures}">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="model:TemperatureSensorData">
-                        <ViewCell>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Frame BorderColor="Transparent" BackgroundColor="#2266FF" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
-                                <Label Grid.Column="0" Grid.Row="0" Text="{Binding zone}" FontSize="25" Padding="15,15,0,0"/>
-                                <Label Grid.Column="0" Grid.Row="2" Text="{Binding name}" FontSize="10" Padding="15,0,0,0" Margin="0,0,0,0"/>
-                                <Label Grid.Column="2" Grid.Row="0" Text="{Binding temperature}" FontSize="35" Padding="10,15,10,0" HorizontalOptions="End"/>
-                                <Label Grid.Column="2" Grid.Row="2" Text="{Binding humidity}" FontSize="10" Padding="10,0,0,0" Margin="0,0,12,10" HorizontalOptions="End"/>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </VerticalStackLayout>
-    </ScrollView>
+    <RefreshView Command="{Binding RefreshCommand}" IsRefreshing="{Binding IsRefreshing}">
+        <ScrollView HeightRequest="800">
+            <VerticalStackLayout Spacing="20">
+                <ListView RowHeight="80" x:Name="listView" SelectionMode="Single" ItemSelected="listView_ItemSelected" ItemsSource="{Binding Temperatures}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:TemperatureSensorData">
+                            <ViewCell>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Frame BorderColor="Transparent" BackgroundColor="#2266FF" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                                    <Label Grid.Column="0" Grid.Row="0" Text="{Binding zone, StringFormat='Zone-{0}'}" FontSize="25" Padding="15,15,0,0"/>
+                                    <Label Grid.Column="0" Grid.Row="2" Text="{Binding name, StringFormat='Bygning: {0}'}" FontSize="10" Padding="15,0,0,0" Margin="0,0,0,0"/>
+                                    <Label Grid.Column="2" Grid.Row="0" Text="{Binding temperature, StringFormat='{0}°C'}" FontSize="35" Padding="10,15,10,0" HorizontalOptions="End"/>
+                                    <Label Grid.Column="2" Grid.Row="2" Text="{Binding humidity,StringFormat='{0}%'}" FontSize="10" Padding="10,0,0,0" Margin="0,0,12,10" HorizontalOptions="End"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </RefreshView>
 </ContentPage>
