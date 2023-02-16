@@ -56,12 +56,19 @@
                     TextColor="LightGrey"
                     FontSize="16"
                     HorizontalOptions="Center" />
-                <Label
-                    Text="8:00"
-                    TextColor="LightGrey"
-                    FontSize="16"
-                    Padding="30,0,30,120"
-                    HorizontalOptions="Center" />
+                <HorizontalStackLayout Padding="0,0,0,120" HorizontalOptions="Center">
+                    <Label
+                        Text="{Binding Time}"
+                        TextColor="LightGrey"
+                        FontSize="16"
+                        Padding="0,0,10,0"
+                        HorizontalOptions="Center" />
+                    <Label
+                        Text="{Binding Date}"
+                        TextColor="LightGrey"
+                        FontSize="16"
+                        HorizontalOptions="Center" />
+                </HorizontalStackLayout>
                 <HorizontalStackLayout Spacing="25" HorizontalOptions="Center">
                     <Image
                         Source="piskel.png"

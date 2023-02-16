@@ -58,5 +58,11 @@
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadUnhandledDeviceExceptionSDEKlimaHideInfoBar="True" /></VisualStudio></ProjectExtensions>
-
+  <PropertyGroup Condition="$(TargetFramework.Contains('-android')) and '$(Configuration)' == 'Release'">
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <AndroidSigningKeyStore>..\myapp.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyAlias>MyAppkey</AndroidSigningKeyAlias>
+    <AndroidSigningKeyPass>Mkq57Zhb</AndroidSigningKeyPass>
+    <AndroidSigningStorePass>Mkq57Zhb</AndroidSigningStorePass>
+  </PropertyGroup>
 </Project>

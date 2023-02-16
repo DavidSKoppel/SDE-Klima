@@ -45,31 +45,40 @@ namespace SDE_Klima.ViewModel
         }
         public async void GetTemperaturesAsync()
         {
-            using (var _client = new HttpClient())
+            try
             {
-                var formContent = new FormUrlEncodedContent(new[]
+                using (var _client = new HttpClient())
                 {
-                new KeyValuePair<string, string>("what", "temperatures-json")
-                });
-                
-                HttpResponseMessage response = await _client.PostAsync("https://itd-skp.sde.dk/api/find.php", formContent);
-                if (response.IsSuccessStatusCode)
-                {
-                    string content = await response.Content.ReadAsStringAsync();
-
-                    var jsonList = JsonSerializer.Deserialize<List<TemperatureSensorData>>(content);
-                    temperatures.Clear();
-                    foreach (var record in jsonList)
+                    var formContent = new FormUrlEncodedContent(new[]
                     {
-                        temperatures.Add(new TemperatureSensorData
+                    new KeyValuePair<string, string>("what", "temperatures-json")
+                    });
+                
+                    HttpResponseMessage response = await _client.PostAsync("https://itd-skp.sde.dk/api/find.php", formContent);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        string content = await response.Content.ReadAsStringAsync();
+
+                        var jsonList = JsonSerializer.Deserialize<List<TemperatureSensorData>>(content);
+                        temperatures.Clear();
+                        foreach (var record in jsonList)
                         {
-                            temperature = record.temperature,
-                            humidity = record.humidity,
-                            zone = record.zone,
-                            name = record.name
-                        });
+                            temperatures.Add(new TemperatureSensorData
+                            {
+                                temperature = record.temperature,
+                                humidity = record.humidity,
+                                zone = record.zone,
+                                name = record.name,
+                                updated_time = record.updated_time,
+                                updated_date = record.updated_date
+                            });
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "An error occured please try again later", "OK");
             }
             IsRefreshing = false;
         }

@@ -13,5 +13,7 @@ namespace SDE_Klima.Model
         public string humidity { get; set; }
         public string name { get; set; }
         public string zone { get; set; }
+        public string updated_time { get; set; }
+        public string updated_date { get; set; }
     }
 }
