@@ -1,4 +1,5 @@
 ﻿using SDE_Klima.Model;
+using System.Globalization;
 using System.Net;
 using System.Text.Json;
 
@@ -66,9 +67,13 @@ namespace SDE_Klima.ViewModel
                             }
                         }
                     }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Connection Error", "Failed to connect to services, please try again later", "OK");
+                    }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "An error occured please try again later", "OK");
             }
@@ -92,7 +97,7 @@ namespace SDE_Klima.ViewModel
             Date = sensorData.updated_date;
             try
             {
-                double temp = Convert.ToDouble(Temperature.Replace("°C", ""));
+                double temp = Convert.ToDouble(Temperature.Replace("°C", ""), CultureInfo.InvariantCulture);
                 if (temp < 20.0)
                 {
     #pragma warning disable CS0618 // Type or member is obsolete

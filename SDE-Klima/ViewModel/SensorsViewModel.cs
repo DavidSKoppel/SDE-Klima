@@ -58,25 +58,35 @@ namespace SDE_Klima.ViewModel
                     if (response.IsSuccessStatusCode)
                     {
                         string content = await response.Content.ReadAsStringAsync();
-
-                        var jsonList = JsonSerializer.Deserialize<List<TemperatureSensorData>>(content);
-                        temperatures.Clear();
-                        foreach (var record in jsonList)
+                        if (content != "{\"Error\":503}") 
                         {
-                            temperatures.Add(new TemperatureSensorData
+                            var jsonList = JsonSerializer.Deserialize<List<TemperatureSensorData>>(content);
+                            temperatures.Clear();
+                            foreach (var record in jsonList)
                             {
-                                temperature = record.temperature,
-                                humidity = record.humidity,
-                                zone = record.zone,
-                                name = record.name,
-                                updated_time = record.updated_time,
-                                updated_date = record.updated_date
-                            });
+                                temperatures.Add(new TemperatureSensorData
+                                {
+                                    temperature = record.temperature,
+                                    humidity = record.humidity,
+                                    zone = record.zone,
+                                    name = record.name,
+                                    updated_time = record.updated_time,
+                                    updated_date = record.updated_date
+                                });
+                            }
+                        } 
+                        else
+                        {
+                            await Application.Current.MainPage.DisplayAlert("Servers Down", "The servers are experiencing difficulties at the moment, please try again later", "OK");
                         }
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Connection Error", "Failed to connect to services, please try again later", "OK");
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "An error occured please try again later", "OK");
             }
